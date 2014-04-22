@@ -1,10 +1,9 @@
-
 navigator.getWebcam = ( navigator.getUserMedia ||
                          navigator.webkitGetUserMedia ||
                          navigator.mozGetUserMedia ||
                          navigator.msGetUserMedia); // Shim for Browser Syntax Differences
 
-// PeerJS object ** FOR PRODUCTION, GET YOUR OWN KEY at http://peerjs.com/peerserver **
+// PeerJS object **Key from http://peerjs.com/peerserver **
 var peer = new Peer({ key: '1v0nhq4cgj3mobt9',
 						debug: 3,
 						config: {'iceServers': [
