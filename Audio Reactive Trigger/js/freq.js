@@ -84,10 +84,10 @@ function togglePlayback() {
     analyser.connect( audioContext.destination );
     sourceNode.start( now );
     isPlaying = true;
-    isLiveInput = false; // Why should this be False?
+    isLiveInput = false; 
     updatePitch();
 
-    return "stop"; // Why should this return False?
+    return "stop"; 
 }
 
 var rafID = null;
