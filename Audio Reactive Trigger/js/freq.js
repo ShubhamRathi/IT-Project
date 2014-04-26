@@ -3,9 +3,6 @@ var isPlaying = false;
 var sourceNode = null;
 var analyser = null;
 var theBuffer = null;
-var WIDTH=300;
-var CENTER=150;
-var HEIGHT=42;
 var confidence = 0;
 var currentPitch = 0;
 
