@@ -1,36 +1,152 @@
-<!doctype html>
-<html>
-<head>
-<title>Whistle Podu!</title>
-<style>
-body { font: 14pt 'Alike', sans-serif;}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+         <meta charset="UTF-8" />
+    <!--Specifies the character encoding for the HTML document -->
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"> 
+    <!--Provides an HTTP header for the information/value of the content attribute-->
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Specifies a name for the metadata --> 
+        <link rel="stylesheet" type="text/css" href="css/default.css" />
+        <link rel="stylesheet" type="text/css" href="css/component.css" />
+        <!-- add default.css and component.css-->
+        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
+        <script src="js/modernizr.custom.js"></script>
+        
+        <script src="newjs/peer.min.js" /></script>
+        <script src="newjs/ps-webrtc-peerjs-final.js" /></script>
+        <script src="newjs/blackline.js" /></script>
+    <!-- add  modernizr.custom.js,newjs/peer.min.js,newjs/ps-webrtc-peerjs-final.js,newjs/blackline.js -->
 
-#animation img {
-    display: none;
-    height: 100%;
-    width: 100%;
-}
-#animation img:first-child {
-    display: block;
-} 
-</style>
+    </head>
+    <body onload="delay()">
+    <!-- calls delay function on onload-->
+        <!-- onload, after adding md-effect class to .md-modal, click event will be triggered on following button
+            This will open modal with id modal-1 which is data-modal attribute of the button-->
+        <button class="md-trigger" id='myModal' style='display:none' data-modal="modal-1">Open modal</button>
+        <!-- onload after delay, a md-effect-* class will be added to following div-->
+       <div class="md-modal md-effect-1" id="modal-1">
+            <div class="md-content">
+                <h3>We know, Its Awesomeness!</h3>
+                <div>
+                    <p>OKay, Good to go but do the following:</p>
+                    <ul>
+                        <li><strong>Step1:</strong> Please click 'allow' on the top of the screen so we can access your webcam and microphone for calls.</li>
+                        <li><strong>Step2:</strong> Share the ID generated below the Video with your peer.</li>
+                        <li><strong>Step3:</strong> Okay, Last: You need a non-proxy internet connection for this to work. </li>
+                    </ul>
+                    <button class="md-close">Close me!</button>
+                </div>
+            </div>
+        </div>
+        
+        
+        <div class="container">
+            <!-- Top Navigation -->
+            <header>
+                <h1>Sound Based Navigation <span>Some inspiration from responsive web design</span></h1>
+            </header>
+        </div><!-- /container -->
+        <div class="md-overlay"></div><!-- the overlay element -->
 
-</head>
-<body>
-<script src="http://cwilso.github.io/AudioContext-MonkeyPatch/AudioContextMonkeyPatch.js"></script>
-<script src="js/freq.js"></script>
 
+        <!-- classie.js from https://github.com/desandro/classie -->
+        <script src="js/classie.js"></script>
+        <script src="js/modalEffects.js"></script>
+    <!-- add classie.js and modaleffects.js-->
+        <!-- for the blur effect -->
+        <!-- by https://github.com/Schepp/CSS-Filters-Polyfill -->
+        <script>// this is important for IEs 
+            var polyfilter_scriptpath = '/js/'; 
+        </script>
+        <script src="js/cssParser.js"></script>
+        <script src="js/css-filters-polyfill.js"></script>
+    <!-- add cssparses.js and css-filters-polyfill.js-->
+    <!-- All of these js are important for modal box -->
+        
+    <!--_________________________________________________________________________________________________________________________________________________________________________-->
+          <div style="margin-left:6.3cm; float:left; font-size:1.15em;">You</div>
+          <div style="margin-left:17.7cm; float:left; font-size:1.15em;">Your Friend</div>
+          <div style="clear:both;">
+          
+          <div style="font-size:1.15em; text-align:center;">
+            <!--Video area -->
+        <!-- video tags for you and your friend-->
+            <div id="video-container" style="text-align:center;  vertical-align:middle; width:100%;">
+                <video id="their-video" autoplay class="their-video" width="550" height="360"></video>
+                <video id="my-video" muted="false" autoplay class="my-video" width="550" height="360"></video>
+            </div>
+          <div>
+         
+                <!--Steps-->
+              <div>
+        
 
-<body onload="toggleLiveInput()">
-
-
-<div id="animation"> 
-    <img src="img/1.jpg" />
-    <img src="img/2.jpg" />
-    <img src="img/3.jpg" />
-    <img src="img/4.jpg" />
+      <table  style="text-align:center; vertical-align:middle; width:100%;" id="mytable" onmouseover="setBackground()" onmouseout="removeBackground()" >          
+            <tr>
+            <td><a href="#" id="make-call" style="color:#66ff99">Call</a></td>
+            <td><a href="http://www.google.com">End call</a></td>
+            </tr>
+         </table>
+        
+            <!--Get local audio/video stream-->
+    <div style="border:2px solid #a1a1a1; padding:10px 40px; width:1200px; margin-left:70px; margin-top:20px; margin-botton:10px;"> 
+          <div id="step1">
+                   <div id="step1-error">
+                    <p><br><!--Failed to access the webcam and microphone. Make sure to run this demo on an http server and click allow when asked for permission by the browser.</p>
+                    <a href="#" id="step1-retry" class="button">Try again</a>-->
+                  </div>
+          </div>
+            <!--Make calls to others-->
+            <div id="step2">
+            <p>Your id: <span id="my-id">...</span></p>
+            
+            <p><span id="subhead">Make a call</span><br>
+                <input type="text" placeholder="Call user id..." id="callto-id" style="border-style:inset; width:200px; height:35px; margin-top:10px;">
+            <!--    <a href="#" id="make-call">Call</a>-->
+            </p>
+        </div>
+    
+        <!--Call in progress-->
+        <div id="step3">
+            <p>Currently in call with <span id="their-id">...</span></p>
+        <!--    <p><a href="#" id="end-call">End call</a></p>-->
+        </div>
+ </div>
+    </div>
+    <p>
+    <p>
+<!--____________________________________________________________________________________________________________________________________________________________________code for video chat-->
+    <script>
    
-</div> 
+    /* function called on onload */ 
+    function delay()
+    {
+        setTimeout(delaymain,150);
+    /* causes delay of 150 ms and calls delaymain */
+    }
+    function delaymain()
+    {
+    
+        var a=randomFromTo(1,19);
+    /* gets a random integer from 1 to 19 by calling function randomfromto*/ 
+        document.querySelectorAll( '.md-modal' )[0].classList.add('md-effect-'+a);
+    /* selects the first element with id #myModal*/
+        document.querySelectorAll( '#myModal' )[0].click();
+    }
+    
+    function randomFromTo(from,to)
+    {
+       /* returns a random integer from 1 to 19*/
+           return Math.floor(Math.random() * (to - from + 1) + from);
+    }
 
+
+        </script>
 </body>
 </html>
+
+
+    </body>
+</html>
+
